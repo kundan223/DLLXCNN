@@ -34,5 +34,10 @@ class TrainOptions(BaseOptions):
         parser.add_argument('--lr_policy', type=str, default='linear', help='learning rate policy. [linear | step | plateau | cosine]')
         parser.add_argument('--lr_decay_iters', type=int, default=50, help='multiply by a gamma every lr_decay_iters iterations')
         parser.add_argument('--mixed_precision', action='store_true', default=False, help='Use torch.cuda.amp.autocast for mixed precision if set')
+        parser.add_argument('--use_ccnet_pretrain', action='store_true', 
+                            help='If true, load a pretrained CCNet checkpoint within HRNetModel')
+        parser.add_argument('--skip_ccnet', action='store_true',
+                            help='If true, skip color correction in forward pass and feed raw->RGB directly into HRNet')
+
         self.isTrain = True
         return parser

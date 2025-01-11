@@ -152,7 +152,7 @@ def train_model(opt, model):
             wandb.init(
                 project='CCHRNET',
                 config=opt,
-                name="t1",
+                name=opt.name,  # Use the --name argument for WandB run name
                 mode='online'
             )
         else:
@@ -160,7 +160,7 @@ def train_model(opt, model):
             wandb.init(
                 project='CCHRNET',
                 config=opt,
-                name="t1",
+                name=opt.name,  # Use the --name argument for WandB run name
                 mode='offline'
             )
         wandb.watch(model, log='all')
