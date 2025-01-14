@@ -14,9 +14,10 @@ class CCNet(BaseNet):
         self.ccBranch = CCBranchV3_0()
         self.hrBranch = EmptyBranch()
         self.mfaModule = EmptyFM()
-
-        self.init_net(self, opt.init_type, opt.init_gain, opt.gpu_ids)
-        pass
+        self.ccBranch = self.init_net(self.ccBranch, opt.init_type, opt.init_gain, opt.gpu_ids)
+        self.hfBranch = self.init_net(self.hfBranch, opt.init_type, opt.init_gain, opt.gpu_ids)
+        # self.init_net(self, opt.init_type, opt.init_gain, opt.gpu_ids)
+        # pass
 
     def forward(self, input):
 
