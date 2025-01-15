@@ -41,7 +41,7 @@ class HRNetModel(BaseModel):
                 print(">> Skipping CCNet entirely (no color correction).")
 
             # Setup loss, optimizer, etc.
-            self.loss_G = HRLoss()
+            self.loss_G = HRLoss(opt)
             self.optimizer_G = torch.optim.Adam(self.netG.parameters(), 
                                                 lr=opt.lr, 
                                                 betas=(opt.beta1, 0.999))
@@ -125,6 +125,7 @@ class HRNetModel(BaseModel):
                                         self.pred_enc)
         else:
             self.loss_all = None
+
     def optimize_parameters(self):
         """
         Typical training step:

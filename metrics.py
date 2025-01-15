@@ -488,12 +488,66 @@ def compute_uiqm_batch(pred, reduction='none'):
 ###############################################
 # UCIQE remains the same or a snippet-based approach
 ###############################################
+
+def getUCIQE_snippet(img):
+    """
+    Compute standard UCIQE measure on an image in [H,W,C], float in [0,1], RGB space.
+    Weighted combination of:
+      - stdChroma (in LAB)
+      - L channel contrast
+      - mean saturation
+    """
+    # Convert float[0,1] -> [0,255] for OpenCV
+    lab = cv2.cvtColor((img*255).astype(np.uint8), cv2.COLOR_RGB2LAB)
+    # Extract L,a,b
+    L = lab[:,:,0].astype(np.float32)        # [0..255]
+    a = lab[:,:,1].astype(np.float32) - 128. # [-128..127]
+    b = lab[:,:,2].astype(np.float32) - 128. # [-128..127]
+    # Chroma
+    chroma = np.sqrt(a**2 + b**2)
+    std_chroma = float(np.std(chroma))
+
+    # L contrast: (Lmax - Lmin)/(Lmax + Lmin)
+    L_norm = L/255.0
+    Lmin = float(np.min(L_norm))
+    Lmax = float(np.max(L_norm))
+    # Avoid division by 0 if Lmin+Lmax==0
+    if (Lmin + Lmax) < 1e-8:
+        con_l = 0.0
+    else:
+        con_l = (Lmax - Lmin)/(Lmax + Lmin)
+
+    # Saturation from HSV
+    hsv = cv2.cvtColor((img*255).astype(np.uint8), cv2.COLOR_RGB2HSV)
+    S = hsv[:,:,1].astype(np.float32)/255.0
+    mean_sat = float(np.mean(S))
+
+    # Weighted sum
+    UCIQE = 0.4680*std_chroma + 0.2745*con_l + 0.2576*mean_sat
+    return UCIQE
+
+
 def compute_uciqe_batch(pred, reduction='none'):
     """
-    If you want to adopt the snippet's approach for UCIQE, do so here.
-    Or keep your existing approach if you like it.
+    Evaluate UCIQE on a batch of images 'pred' with shape [B, C, H, W], possibly in [-1,1].
+    We clamp to [0,1], then compute a real UCIQE.
+    Returns a list (length B) of floats if reduction='none'.
     """
-    # For completeness, you might do the block-based approach or a simpler standard approach.
-    # We'll just keep it short. 
-    return [0.0]*pred.shape[0]  # place-holder or adopt your existing function
+    # from . import _check_and_clip_range  # or wherever you defined it
+
+    B = pred.shape[0]
+    # If your pred is in [-1,1], shift/clamp to [0,1]
+    pred = (pred + 1.0)/2.0
+    pred = torch.clamp(pred, 0.0, 1.0)
+    pred = _check_and_clip_range(pred, 0.0, 1.0)
+
+    out_vals = []
+    for i in range(B):
+        # Convert [C,H,W]->[H,W,C] then to CPU numpy
+        img_np = pred[i].permute(1,2,0).cpu().numpy()
+        val = getUCIQE_snippet(img_np)
+        out_vals.append(val)
+
+    return out_vals
+
 

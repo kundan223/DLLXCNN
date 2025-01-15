@@ -56,6 +56,8 @@ class BaseOptions():
         parser.add_argument('--suffix', default='', type=str, help='customized suffix: opt.name = opt.name + suffix: e.g., {model}_{netG}_size{load_size}')
         # Lewis add
         parser.add_argument('--epoch_cc', type=str, default='best', help='which epoch to load? set to best to use best cached model for pretrained CC-Net')
+        parser.add_argument('--use_color_correction_loss', action='store_true', default=False, help='use color correction loss')
+       
         self.initialized = True
         return parser
 
