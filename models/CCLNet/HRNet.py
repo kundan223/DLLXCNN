@@ -7,7 +7,7 @@ from models.CCLNet.BaseNet import BaseNet
 from models.CCLNet.Public.net.empty_branch import EmptyBranch
 from models.CCLNet.Public.net.empty_fm import EmptyFM
 # from models.CCLNet.ScaterringBranch.ScatteringBranch import HRBranch
-from models.CCLNet.ScaterringBranch.ScaterringBranch import HRBranch
+from models.CCLNet.ScaterringBranch.uw_edge_model import HRBranch
 
 
 class HRNet(BaseNet):
