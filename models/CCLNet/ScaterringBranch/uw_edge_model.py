@@ -1,5 +1,5 @@
 
-# File: models/CCLNet/ScaterringBranch/ScaterringBranch.py
+# File: models/CCLNet/ScaterringBranch/uw_edge_model.py
 
 import torch
 import warnings
