@@ -78,15 +78,22 @@ def validate_model(opt, model, epoch, visualizer):
             # 3) Convert pred_hr from [-1,1] or lab-scaling to [0,1] if needed
             #    Typically, 'pred_hr' is in [-1,1] from the final Tanh,
             #    so we do the same as `tensor2im()` but keep it as a tensor.
+            print(f"pred_hr_range: {model.pred_hr.min()}, {model.pred_hr.max()}")
             pred_hr = (model.pred_hr + 1) / 2.0  # shape [B, C, H, W], in [0,1]
+            print(f"pred_hr_range: {pred_hr.min()}, {pred_hr.max()}")
             # Possibly clamp:
             pred_hr = torch.clamp(pred_hr, 0.0, 1.0)
+            print(f"pred_hr_range: {pred_hr.min()}, {pred_hr.max()}")
 
             if 'ref' in data.keys():
                 # We also convert ref from LAB->RGB in training code:
+                print(f" ref lab image range: {data['ref'].min()}, {data['ref'].max()}")
                 ref_rgb = model.lab2rgb.labn12p1_to_rgbn12p1(data['ref'].to(model.device))
+                print(f" ref rgb image range: {ref_rgb.min()}, {ref_rgb.max()}")
                 ref_rgb = (ref_rgb + 1)/2.0
+                print(f" ref rgb image range: {ref_rgb.min()}, {ref_rgb.max()}")
                 ref_rgb = torch.clamp(ref_rgb, 0.0, 1.0)
+                print(f" ref rgb image range: {ref_rgb.min()}, {ref_rgb.max()}")
 
                 # Compute PSNR/SSIM if we have a reference
                 psnr_vals = compute_psnr_batch(pred_hr, ref_rgb, data_range=1.0, reduction='none')

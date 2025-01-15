@@ -15,7 +15,7 @@ class CCNet(BaseNet):
         self.hrBranch = EmptyBranch()
         self.mfaModule = EmptyFM()
         self.ccBranch = self.init_net(self.ccBranch, opt.init_type, opt.init_gain, opt.gpu_ids)
-        self.hfBranch = self.init_net(self.hfBranch, opt.init_type, opt.init_gain, opt.gpu_ids)
+        self.hrBranch = self.init_net(self.hrBranch, opt.init_type, opt.init_gain, opt.gpu_ids)
         # self.init_net(self, opt.init_type, opt.init_gain, opt.gpu_ids)
         # pass
 
