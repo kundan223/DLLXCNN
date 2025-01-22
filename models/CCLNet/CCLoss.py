@@ -2,7 +2,7 @@
 #File: models/CCLNet/CCLoss.py
 import torch.nn as nn
 
-from models.CCLNet.Public.loss.empty_loss import EmptyLoss
+from CCLNet.Public.loss.empty_loss import EmptyLoss
 from .AbsorptionLoss.ColorCorrectionLossV4_0 import CCLossV4_0
 
 class CCLoss(nn.Module):

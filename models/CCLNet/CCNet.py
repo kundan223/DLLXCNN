@@ -1,10 +1,10 @@
 #File: models/CCLNet/CCNet.py
 
 
-from models.CCLNet.BaseNet import BaseNet
-from models.CCLNet.AbsorptionBranch.AbsorptionBranchV3_0 import CCBranchV3_0
-from models.CCLNet.Public.net.empty_branch import EmptyBranch
-from models.CCLNet.Public.net.empty_fm import EmptyFM
+from CCLNet.BaseNet import BaseNet
+from CCLNet.AbsorptionBranch.AbsorptionBranchV3_0 import CCBranchV3_0
+from CCLNet.Public.net.empty_branch import EmptyBranch
+from CCLNet.Public.net.empty_fm import EmptyFM
 
 
 class CCNet(BaseNet):

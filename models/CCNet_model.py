@@ -1,5 +1,5 @@
 #File: models/CCNet_model.py
-
+print("start")
 
 import torch
 from collections import OrderedDict
@@ -9,6 +9,8 @@ from .base_model import BaseModel
 from .CCLNet.CCNet import CCNet
 from .CCLNet.CCLoss import CCLoss
 from .CCLNet.Public.util.LAB2RGB_v2 import Lab2RGB
+
+print ("import complete")
 
 class CCNetModel(BaseModel):
     def __init__(self, opt):

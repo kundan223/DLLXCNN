@@ -5,8 +5,8 @@ from datetime import datetime
 
 import torch.nn as nn
 
-from models.CCLNet.Public.loss.vgg19cr_loss import ContrastLoss
-from models.CCLNet.Public.util.LAB2RGB_v2 import Lab2RGB
+from CCLNet.Public.loss.vgg19cr_loss import ContrastLoss
+from CCLNet.Public.util.LAB2RGB_v2 import Lab2RGB
 
 
 class CCLossV4_0(nn.Module):
